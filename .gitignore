@@ -1,0 +1,10 @@
+node_modules/
+.vscode/
+*.log
+tunnel.log
+.DS_Store
+
+cloudflared.exe
+assets/Material Collecting/
+*.obj
+*.mtl

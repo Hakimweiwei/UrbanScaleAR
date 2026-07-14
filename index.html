@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>UrbanScale WebAR - Phase 1</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <script>
+        window.onerror = function(message, source, lineno, colno, error) {
+            const errDiv = document.createElement('div');
+            errDiv.style.position = 'fixed';
+            errDiv.style.top = '10px';
+            errDiv.style.left = '10px';
+            errDiv.style.background = 'red';
+            errDiv.style.color = 'white';
+            errDiv.style.zIndex = '9999';
+            errDiv.style.padding = '10px';
+            errDiv.innerHTML = `Error: ${message}<br>Line: ${lineno}`;
+            document.body.appendChild(errDiv);
+        };
+        window.addEventListener('unhandledrejection', function(event) {
+            const errDiv = document.createElement('div');
+            errDiv.style.position = 'fixed';
+            errDiv.style.top = '60px';
+            errDiv.style.left = '10px';
+            errDiv.style.background = 'blue';
+            errDiv.style.color = 'white';
+            errDiv.style.zIndex = '9999';
+            errDiv.style.padding = '10px';
+            errDiv.innerHTML = `Promise Reject: ${event.reason}`;
+            document.body.appendChild(errDiv);
+        });
+
+        // Hijack console.error
+        const originalError = console.error;
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            const errDiv = document.createElement('div');
+            errDiv.style.position = 'fixed';
+            errDiv.style.top = '110px';
+            errDiv.style.left = '10px';
+            errDiv.style.background = 'orange';
+            errDiv.style.color = 'black';
+            errDiv.style.zIndex = '9999';
+            errDiv.style.padding = '10px';
+            errDiv.innerHTML = `Console Error: ${args.join(' ')}`;
+            document.body.appendChild(errDiv);
+        };
+    </script>
+    <!-- Container untuk elemen DOM Overlay WebXR (Fase 3) -->
+    <div id="ar-overlay">
+        <!-- Error Banner (Fase 4) -->
+        <div id="error-banner" class="hidden">
+            <h3 id="error-title">WebXR Tidak Didukung</h3>
+            <p id="error-msg">Perangkat atau browser Anda tidak mendukung AR. Gunakan Chrome di Android, atau Safari di iOS dengan WebXR aktif.</p>
+        </div>
+
+        <button id="btn-start-ar" class="ar-btn">Mulai AR</button>
+        <button id="btn-enter-room" class="ar-btn hidden">Masuk ke Ruangan</button>
+        <button id="btn-reposition" class="ar-btn hidden">Pindah Maket</button>
+        <button id="btn-back-ar" class="ar-btn hidden">Kembali ke AR</button>
+        <button id="btn-exit-room" class="ar-btn hidden">Keluar</button>
+        <div id="crosshair" class="hidden">+</div>
+        <div id="status-text">Memuat model...</div>
+        
+        <!-- Joystick Area -->
+        <div id="joystick-zone" class="hidden"></div>
+    </div>
+    
+    <!-- Entry point aplikasi utama -->
+    <script type="module" src="./js/bundle.js?v=1021"></script>
+</body>
+</html>
